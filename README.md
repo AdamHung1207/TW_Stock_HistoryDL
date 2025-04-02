@@ -13,6 +13,7 @@ stock_list = pd.read_csv("stock_list.csv", encoding="utf-8-sig")
 需要一個名為stock_list.csv的檔案，裡面有所有台股的代號及名稱。(代號後面好像都要加.tw的樣子)
 另外要確定這個檔案裡有ticker對應是股票代號.tw，name對應是股票名稱。
 如果有這個檔案，但名稱不一樣，就叫ChatGPT幫你改一下吧。
+如果沒有，就下載我的拿去用吧，這也是我用別的GitHub下載下來的。
 
 # 設定爬取區間（過去 15 年）
 period = "15y"
