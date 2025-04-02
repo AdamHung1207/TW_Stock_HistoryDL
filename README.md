@@ -1,5 +1,3 @@
-．透過yfinance（Yahoo Finance API 的 Python 套件）來抓取 Yahoo Finance 上的歷史股價數據。
-
 在GitHub上找了一輪，滿多連線至台灣證交所要爬蟲的資料都會執行錯誤，也很懶得找原作者詢問為什麼，問了ChatGPT跟其它AI也是鬼打牆。
 
 那我就自己叫ChatGPT寫一個吧！！！
