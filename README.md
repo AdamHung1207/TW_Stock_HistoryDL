@@ -11,8 +11,11 @@ DATA_FOLDER = "TW_Stock"
 stock_list = pd.read_csv("stock_list.csv", encoding="utf-8-sig")
 
 需要一個名為stock_list.csv的檔案，裡面有所有台股的代號及名稱。(代號後面好像都要加.tw的樣子)
+
 另外要確定這個檔案裡有ticker對應是股票代號.tw，name對應是股票名稱。
+
 如果有這個檔案，但名稱不一樣，就叫ChatGPT幫你改一下吧。
+
 如果沒有，就下載我的拿去用吧，這也是我用別的GitHub下載下來的。
 
 # 設定爬取區間（過去 15 年）
@@ -26,6 +29,7 @@ print(f"⏳ 休息 {delay} 秒...")
 time.sleep(delay)
 
 怕真的出什麼意外會擋，所以請ChatGPT設置一個延遲讀取，隨時2~10秒，想改的話就把2跟10改成你想要字就好。
+
 這個就不用叫ChatGPT來了。
 
 # 執行完整下載或更新
@@ -37,4 +41,5 @@ def main():
 ![image](https://github.com/user-attachments/assets/4ba67ea5-5ba8-46fb-80f2-3370e517ebe1)
 
 在跑的畫面是這樣，我執行起來沒有問題。
+
 有問題的話一律問ChatGPT，這是他寫給我的。
