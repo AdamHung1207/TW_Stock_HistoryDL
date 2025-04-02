@@ -8,6 +8,7 @@ DATA_FOLDER = "TW_Stock"
 下載之後會存放在一個名為TW.Stock的資料夾下。
 
 # 讀取 CSV 檔案，確保有 "ticker" 和 "name" 欄位
+
 stock_list = pd.read_csv("stock_list.csv", encoding="utf-8-sig")
 
 需要一個名為stock_list.csv的檔案，裡面有所有台股的代號及名稱。(代號後面好像都要加.tw的樣子)
@@ -19,13 +20,17 @@ stock_list = pd.read_csv("stock_list.csv", encoding="utf-8-sig")
 如果沒有，就下載我的拿去用吧，這也是我用別的GitHub下載下來的。
 
 # 設定爬取區間（過去 15 年）
+
 period = "15y"
 
 本程式以當天執行的日期，往前推15年，如果是要指定日期的話，請叫ChatGPT改。
 
 # **隨機延遲 2~10 秒，避免請求過快被封鎖**
+
 delay = random.randint(2, 10)
+
 print(f"⏳ 休息 {delay} 秒...")
+
 time.sleep(delay)
 
 怕真的出什麼意外會擋，所以請ChatGPT設置一個延遲讀取，隨時2~10秒，想改的話就把2跟10改成你想要字就好。
@@ -33,7 +38,9 @@ time.sleep(delay)
 這個就不用叫ChatGPT來了。
 
 # 執行完整下載或更新
+
 def main():
+
     mode = input("請選擇模式：完整下載 (1) / 更新 (2)：")
 
 為了不想要每次都要跑這麼久的下載，也叫ChatGPT去比對資料，只要更新短缺的日期即可。
