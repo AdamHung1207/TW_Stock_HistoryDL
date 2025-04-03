@@ -46,3 +46,13 @@ stock_list = pd.read_csv("stock_list.csv", encoding="utf-8-sig")
 不一定會再更新，也有可能API哪天就會被擋爬蟲了，會不會發生我也不知道，有影響到我再說。
 
 再視情況要不要來更新。
+
+最後，我執行的當下，亞力的資料確實沒有，所以下載不下來。
+
+![image](https://github.com/user-attachments/assets/a755b23c-aa66-4852-8af5-a8c724db4f2e)
+
+然後碁無法顯示，所以下載下來的檔案就會變成這樣。
+
+懶得研究了，所以就不做什麼了。
+
+![image](https://github.com/user-attachments/assets/af4c6055-ce07-4536-bd04-d4774fa99ec7)
