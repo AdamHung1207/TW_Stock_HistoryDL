@@ -2,12 +2,12 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 from tqdm import tqdm
+import yaml
+import re
 
 def fetch_stock_list(mode, label, suffix):
     url = f"https://isin.twse.com.tw/isin/C_public.jsp?strMode={mode}"
-    headers = {
-        "User-Agent": "Mozilla/5.0"
-    }
+    headers = {"User-Agent": "Mozilla/5.0"}
 
     try:
         response = requests.get(url, headers=headers, timeout=10)
@@ -26,9 +26,13 @@ def fetch_stock_list(mode, label, suffix):
         if len(cols) >= 1:
             text = cols[0].text.strip()
             if text and text[0].isdigit():
-                try:
-                    stock_id, name = text.split('　')
-                    if stock_id.isdigit() and 0 <= int(stock_id) <= 9999:
+                parts = text.split('　')
+                if len(parts) >= 2:
+                    stock_id = parts[0].strip()
+                    name = '　'.join(parts[1:]).strip()
+
+                    # ✅ 強化版：過濾條件 ➜ 開頭為 4~5 位數字 + 可選英文字母
+                    if re.match(r'^\d{4,5}[A-Z]*$', stock_id):
                         yahoo_code = f"{stock_id}.{suffix}"
                         data.append({
                             'stock_id': stock_id,
@@ -36,16 +40,32 @@ def fetch_stock_list(mode, label, suffix):
                             'market': label,
                             'yahoo_code': yahoo_code
                         })
-                except ValueError:
-                    continue
     return pd.DataFrame(data)
 
 if __name__ == "__main__":
-    df_twse = fetch_stock_list(2, "TWSE", "TW")
-    df_otc = fetch_stock_list(4, "OTC", "TWO")
+    sources = [
+        (2, "TWSE", "TW"),       # 上市股票
+        (4, "OTC", "TWO"),       # 上櫃股票
+        (5, "ETF_TW", "TW"),     # 上市 ETF
+        (6, "ETF_OTC", "TWO")    # 上櫃 ETF
+    ]
 
-    df_all = pd.concat([df_twse, df_otc], ignore_index=True)
+    all_dfs = []
+    for mode, label, suffix in sources:
+        df = fetch_stock_list(mode, label, suffix)
+        all_dfs.append(df)
+
+    df_all = pd.concat(all_dfs, ignore_index=True)
     df_all = df_all.sort_values(by='stock_id').reset_index(drop=True)
-    df_all.to_csv("stock_list.csv", index=False, encoding="utf-8-sig")
 
-    print(f"\n✅ 抓取完成，總共 {len(df_all)} 檔股票，已儲存為 stock_list.csv")
+    # 輸出 CSV
+    df_all.to_csv("stock_list.csv", index=False, encoding="utf-8-sig")
+    print(f"📄 已儲存 stock_list.csv（共 {len(df_all)} 檔）")
+
+    # 輸出 YAML
+    stock_list = df_all.to_dict(orient="records")
+    with open("stock_list.yaml", "w", encoding="utf-8") as f:
+        yaml.dump(stock_list, f, allow_unicode=True)
+    print(f"📄 已儲存 stock_list.yaml（共 {len(stock_list)} 檔）")
+
+    print("\n✅ 全部完成！股票 + ETF 已整理完畢（含強化過濾條件）")
